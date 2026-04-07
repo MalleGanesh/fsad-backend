@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Student Feedback API</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+        }
+
+        .card {
+            background: rgba(255,255,255,0.07);
+            border: 1px solid rgba(255,255,255,0.12);
+            backdrop-filter: blur(16px);
+            border-radius: 20px;
+            padding: 50px 60px;
+            text-align: center;
+            max-width: 620px;
+            width: 90%;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+        }
+
+        .status-dot {
+            display: inline-block;
+            width: 12px; height: 12px;
+            background: #22c55e;
+            border-radius: 50%;
+            margin-right: 8px;
+            animation: pulse 1.8s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(34,197,94,0.5); }
+            50% { box-shadow: 0 0 0 8px rgba(34,197,94,0); }
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            background: rgba(34,197,94,0.15);
+            border: 1px solid rgba(34,197,94,0.4);
+            border-radius: 20px;
+            padding: 6px 16px;
+            font-size: 13px;
+            color: #86efac;
+            margin-bottom: 28px;
+        }
+
+        h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            background: linear-gradient(90deg, #60a5fa, #a78bfa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        p.subtitle {
+            color: rgba(255,255,255,0.55);
+            font-size: 15px;
+            margin-bottom: 36px;
+        }
+
+        .endpoints {
+            text-align: left;
+            background: rgba(0,0,0,0.25);
+            border-radius: 12px;
+            padding: 20px 24px;
+            border: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .endpoints h2 {
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: rgba(255,255,255,0.4);
+            margin-bottom: 16px;
+        }
+
+        .endpoint-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+            font-size: 14px;
+        }
+
+        .endpoint-item:last-child { margin-bottom: 0; }
+
+        .method {
+            font-size: 11px;
+            font-weight: 700;
+            padding: 3px 8px;
+            border-radius: 6px;
+            min-width: 52px;
+            text-align: center;
+        }
+
+        .get  { background: rgba(59,130,246,0.2); color: #93c5fd; border: 1px solid rgba(59,130,246,0.4); }
+        .post { background: rgba(34,197,94,0.2);  color: #86efac; border: 1px solid rgba(34,197,94,0.4); }
+        .del  { background: rgba(239,68,68,0.2);  color: #fca5a5; border: 1px solid rgba(239,68,68,0.4); }
+
+        .path { color: #e2e8f0; font-family: monospace; }
+
+        .desc { color: rgba(255,255,255,0.4); font-size: 12px; margin-left: auto; }
+
+        .footer {
+            margin-top: 28px;
+            font-size: 12px;
+            color: rgba(255,255,255,0.3);
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <div class="status-badge">
+            <span class="status-dot"></span>
+            Server is running on port 8080
+        </div>
+
+        <h1>Student Feedback API</h1>
+        <p class="subtitle">Spring Boot REST Backend &mdash; Use Postman or your frontend to interact.</p>
+
+        <div class="endpoints">
+            <h2>Available Endpoints</h2>
+
+            <div class="endpoint-item">
+                <span class="method post">POST</span>
+                <span class="path">/api/auth/register</span>
+                <span class="desc">Register student</span>
+            </div>
+            <div class="endpoint-item">
+                <span class="method post">POST</span>
+                <span class="path">/api/auth/login</span>
+                <span class="desc">Student login</span>
+            </div>
+            <div class="endpoint-item">
+                <span class="method get">GET</span>
+                <span class="path">/api/students</span>
+                <span class="desc">Get all students</span>
+            </div>
+            <div class="endpoint-item">
+                <span class="method get">GET</span>
+                <span class="path">/api/students/{id}</span>
+                <span class="desc">Get student by ID</span>
+            </div>
+            <div class="endpoint-item">
+                <span class="method post">POST</span>
+                <span class="path">/api/students</span>
+                <span class="desc">Create student</span>
+            </div>
+            <div class="endpoint-item">
+                <span class="method del">DELETE</span>
+                <span class="path">/api/students/{id}</span>
+                <span class="desc">Delete student</span>
+            </div>
+            <div class="endpoint-item">
+                <span class="method get">GET</span>
+                <span class="path">/api/feedback</span>
+                <span class="desc">Get all feedback</span>
+            </div>
+            <div class="endpoint-item">
+                <span class="method post">POST</span>
+                <span class="path">/api/feedback</span>
+                <span class="desc">Submit feedback</span>
+            </div>
+        </div>
+
+        <div class="footer">
+            Connected to MySQL &bull; Spring Boot 4.0.5 &bull; Java 17
+        </div>
+    </div>
+</body>
+</html>
