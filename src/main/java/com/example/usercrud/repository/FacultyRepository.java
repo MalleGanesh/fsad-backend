@@ -9,4 +9,7 @@ import java.util.Optional;
 public interface FacultyRepository extends JpaRepository<Faculty, Long> {
     Optional<Faculty> findByFacultyId(String facultyId);
     List<Faculty> findByEnabledTrue();
+    
+    @org.springframework.data.jpa.repository.Query("SELECT MAX(f.facultyId) FROM Faculty f")
+    String findMaxFacultyId();
 }

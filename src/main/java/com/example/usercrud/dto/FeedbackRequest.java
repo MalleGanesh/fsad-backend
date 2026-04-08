@@ -2,6 +2,7 @@ package com.example.usercrud.dto;
 
 public class FeedbackRequest {
     private String studentName;
+    private String studentEmail;
     private Long facultyId;
     private String courseName;
     private int q1;
@@ -14,6 +15,9 @@ public class FeedbackRequest {
     // Getters and Setters
     public String getStudentName() { return studentName; }
     public void setStudentName(String studentName) { this.studentName = studentName; }
+
+    public String getStudentEmail() { return studentEmail; }
+    public void setStudentEmail(String studentEmail) { this.studentEmail = studentEmail; }
 
     public Long getFacultyId() { return facultyId; }
     public void setFacultyId(Long facultyId) { this.facultyId = facultyId; }

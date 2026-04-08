@@ -19,9 +19,9 @@ public class AuthController {
 
     private final StudentRepository studentRepository;
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-    @Value("${app.admin.username:Ganesh}")
+    @Value("${app.admin.username:admin}")
     private String adminUsername;
-    @Value("${app.admin.password:Ganesh@123}")
+    @Value("${app.admin.password:admin123456}")
     private String adminPassword;
 
     public AuthController(StudentRepository studentRepository) {

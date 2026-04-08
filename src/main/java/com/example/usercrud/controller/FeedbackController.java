@@ -45,11 +45,16 @@ public class FeedbackController {
             return ResponseEntity.badRequest().body(java.util.Map.of("message", "Ratings must be between 1 and 5"));
         }
 
+        if (feedbackRepository.existsByStudentEmailAndFaculty_Id(request.getStudentEmail(), request.getFacultyId())) {
+            return ResponseEntity.status(400).body(java.util.Map.of("message", "Feedback already given for this faculty"));
+        }
+
         Faculty faculty = facultyRepository.findById(request.getFacultyId())
                 .orElseThrow(() -> new RuntimeException("Faculty not found with id: " + request.getFacultyId()));
 
         Feedback feedback = new Feedback();
         feedback.setStudentName(request.getStudentName());
+        feedback.setStudentEmail(request.getStudentEmail());
         feedback.setFaculty(faculty);
         feedback.setCourseName(request.getCourseName());
         feedback.setQ1(request.getQ1());

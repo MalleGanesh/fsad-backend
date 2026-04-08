@@ -12,6 +12,7 @@ public class Feedback {
     private Long id;
 
     private String studentName;
+    private String studentEmail;
 
     @ManyToOne
     @JoinColumn(name = "faculty_id", nullable = false)
@@ -51,6 +52,14 @@ public class Feedback {
 
     public void setStudentName(String studentName) {
         this.studentName = studentName;
+    }
+
+    public String getStudentEmail() {
+        return studentEmail;
+    }
+
+    public void setStudentEmail(String studentEmail) {
+        this.studentEmail = studentEmail;
     }
 
     public Faculty getFaculty() {

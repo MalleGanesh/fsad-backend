@@ -23,12 +23,16 @@ public class StudentFeedbackBackendApplication {
             BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
             
             // Seed Faculty
-            createFacultyIfMissing(facultyRepository, "101", "RESHMA", encoder);
-            createFacultyIfMissing(facultyRepository, "102", "Dr. R. Saxena", encoder);
-            createFacultyIfMissing(facultyRepository, "103", "Dr. Hari Pothuluru", encoder);
-            createFacultyIfMissing(facultyRepository, "104", "Dr. Maneesha Vadduri", encoder);
-            createFacultyIfMissing(facultyRepository, "105", "Dr. Nichenametla Rajesh", encoder);
-            createFacultyIfMissing(facultyRepository, "106", "Dr. K. Srinivas", encoder);
+            createFacultyIfMissing(facultyRepository, "101", "RESHMA", "Java Programming", encoder);
+            createFacultyIfMissing(facultyRepository, "102", "Dr. R. Saxena", "Artificial Intelligence", encoder);
+            createFacultyIfMissing(facultyRepository, "103", "Dr. Hari Pothuluru", "Software Engineering", encoder);
+            createFacultyIfMissing(facultyRepository, "104", "Dr. Maneesha Vadduri", "Python Programming", encoder);
+            createFacultyIfMissing(facultyRepository, "105", "Dr. Nichenametla Rajesh", "Operating Systems", encoder);
+            createFacultyIfMissing(facultyRepository, "106", "Dr. K. Srinivas", "Compiler Design", encoder);
+            createFacultyIfMissing(facultyRepository, "110", "DR.LAKSHMI DEVI", "CYBER SECURITY", encoder);
+
+            // Cleanup: remove the duplicate small-letter faculty 107 if it exists
+            facultyRepository.findByFacultyId("107").ifPresent(facultyRepository::delete);
 
             // Seed/Fix Students
             createStudentIfMissing(studentRepository, "ganesh@gmail.com", "Ganesh", "B.Tech", encoder);
@@ -40,12 +44,22 @@ public class StudentFeedbackBackendApplication {
             FacultyRepository facultyRepository,
             String facultyId,
             String name,
+            String course,
             BCryptPasswordEncoder encoder
     ) {
-        if (facultyRepository.findByFacultyId(facultyId).isEmpty()) {
-            Faculty faculty = new Faculty(name, facultyId, encoder.encode("faculty@123"), false, "General");
-            facultyRepository.save(faculty);
-        }
+        facultyRepository.findByFacultyId(facultyId).ifPresentOrElse(
+            faculty -> {
+                // Update course if it's currently "General", null, or blank
+                if (faculty.getCourse() == null || faculty.getCourse().isBlank() || faculty.getCourse().equalsIgnoreCase("General")) {
+                    faculty.setCourse(course);
+                    facultyRepository.save(faculty);
+                }
+            },
+            () -> {
+                Faculty faculty = new Faculty(name, facultyId, encoder.encode("faculty@123"), false, course);
+                facultyRepository.save(faculty);
+            }
+        );
     }
 
     private void createStudentIfMissing(

@@ -23,6 +23,21 @@ public class FacultyController {
         this.facultyRepository = facultyRepository;
     }
 
+    @GetMapping("/next-id")
+    public Map<String, String> getNextFacultyId() {
+        String maxId = facultyRepository.findMaxFacultyId();
+        int nextId = 101; // Default start
+        if (maxId != null) {
+            try {
+                nextId = Integer.parseInt(maxId) + 1;
+            } catch (NumberFormatException e) {
+                // If it's not a number, we might need a different strategy, 
+                // but based on "101" placeholder, this should work.
+            }
+        }
+        return Map.of("nextId", String.valueOf(nextId));
+    }
+
     @GetMapping
     public List<Map<String, Object>> getFaculty(@RequestParam(required = false) Boolean enabled) {
         List<Faculty> facultyList = Boolean.TRUE.equals(enabled)
@@ -53,8 +68,8 @@ public class FacultyController {
             return ResponseEntity.badRequest().body(Map.of("message", "Name, Faculty ID, Password, and Course are required"));
         }
 
-        if (facultyRepository.findByFacultyId(facultyId).isPresent()) {
-            return ResponseEntity.badRequest().body(Map.of("message", "Faculty ID already exists"));
+        if (facultyRepository.findByFacultyId(facultyId.trim().toLowerCase()).isPresent()) {
+            return ResponseEntity.badRequest().body(Map.of("message", "Faculty ID " + facultyId + " already exists. Please refresh for a new one."));
         }
 
         Faculty faculty = new Faculty();
