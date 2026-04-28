@@ -34,6 +34,12 @@ public class FeedbackController {
         return feedbackRepository.findByFaculty_Name(facultyName);
     }
 
+    // GET feedback by student email
+    @GetMapping("/student/{email}")
+    public List<Feedback> getFeedbackByStudentEmail(@PathVariable String email) {
+        return feedbackRepository.findByStudentEmail(email);
+    }
+
     // POST feedback
     @PostMapping
     public ResponseEntity<?> createFeedback(@RequestBody FeedbackRequest request) {

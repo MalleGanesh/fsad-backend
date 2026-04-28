@@ -8,4 +8,5 @@ import java.util.List;
 public interface FeedbackRepository extends JpaRepository<Feedback, Long> {
     List<Feedback> findByFaculty_Name(String facultyName);
     boolean existsByStudentEmailAndFaculty_Id(String studentEmail, Long facultyId);
+    List<Feedback> findByStudentEmail(String studentEmail);
 }
